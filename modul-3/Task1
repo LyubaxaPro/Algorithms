@@ -1,0 +1,63 @@
+#include <iostream>
+
+struct Node;
+
+struct Node {
+    Node* left;
+    Node* right;
+    int key;
+    Node (int akey){
+        left = 0;
+        right = 0;
+        key = akey;
+    }
+} ;
+
+
+Node* inserty (Node* root, int key){
+    if (!root){
+        return new Node(key);
+    }
+    if(root->key <= key){
+        root->right = inserty(root->right, key);
+    }
+    else{
+        root->left = inserty (root->left, key);
+    }
+    return root;
+}
+
+void printInOrder (const Node* root){
+    if (root) {
+        std::cout << root->key << ' ';
+        printInOrder(root->left);
+        printInOrder(root->right);
+    }
+}
+
+Node* cleary(Node* root) {
+    if (root) {
+        cleary (root->left);
+        cleary (root->right);
+        delete root;
+    }
+    return 0;
+}
+
+
+int main(){
+
+
+    Node* root = 0 ;
+    int N, temp;
+    std::cin >> N;
+
+    for(int i = 0; i < N; ++i){
+    	std::cin >> temp;
+    	root = inserty (root, temp);
+    }
+    printInOrder (root);
+    std::cout << '\n';
+
+    root = cleary(root);
+}
